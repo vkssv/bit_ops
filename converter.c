@@ -1,25 +1,48 @@
 #include <stdio.h>
 #include <string.h>  /* to calculate str length */
 #include <stdint.h>
+#include <stdlib.h>
 
 #define STR32 33
+#define USR_INPUT 3 // char + '\n' + ''
 
 void print_bin(int num);
-void print_dec(char *bin_str);
+int bin_to_dec(char *bin_str);
 
 void reverse_string(char* _array);
 
 
 int main(int argc, char *argv[]) {
-    printf("The binary value of 111111 is: \n");
-    print_bin(111111);
-    printf("\n");
-
+    char ch[USR_INPUT] = {0}; // for sentinel char + '\n' added as ICANON | ECHO flags are set in struct termios with tty attrs by default (canonical mode)
+    /* This depends on your OS, if you are in a UNIX like environment the ICANON flag is enabled by default, 
+    * so input is buffered until the next '\n' or EOF. By disabling the canonical mode you will get the characters 
+    * immediately, i.e. |char| instead of |char|\n| or |char|EOF| or |char|EOL|.
+    * *ICANON normally takes care that one line at a time will be processed
+    * that means it will return if it sees a "\n" or an EOF or an EOL: 
+    * newt.c_lflag &= ~(ICANON | ECHO); => carefull, this also disables EOF for non-canonical mode;
+    * https://stackoverflow.com/questions/1798511/how-to-avoid-pressing-enter-with-getchar-for-reading-a-single-character-only          
+    */
     char bin_str[STR32] = {0}; // make it large enough to hold an int32_t + '\0'
-    scanf("%s", bin_str);
 
+    system("clear"); 
+    do {
+
+        printf("Enter the binary number to be converted to decimal:\n");
+        fgets(bin_str, STR32, stdin);
+        printf("Entered line: <%s>>\n", bin_str);
+        bin_str[strlen(bin_str)-1] = '\0';
+        printf("Corrected line: <%s>>\n", bin_str);
+        printf("+++ dec num is %d\n", bin_to_dec(bin_str));
+        printf("\n\nPress 'q' to quit... OR \nPress ANY key to continue...\n");
+        fgets(ch, USR_INPUT, stdin);
+        fseek(stdin, 0, SEEK_END); // successful call to the fseek() function clears the end-of-file indicator for the stream and undoes any effects of the ungetc(3)
+    } while ( ch[0] != 'q' );
+
+    //printf("The binary value of 111111 is: \n");
+    //print_bin(111111);
+    //printf("\n");
+    //scanf("%s", bin_str);
     return 0;
-
 }
 
 
@@ -29,15 +52,13 @@ int bin_to_dec(char *bin_str) {
 
     reverse_string(bin_str);
     printf("+++ reversed string %s\n", bin_str);
-    
+
     while(*bin_str != '\0') {
-        dec_num +=(*bin_str)*(1 << i++);
+        dec_num += (*bin_str - '0')*(1 << i++);
+        bin_str++;
     }
 
-    printf("+++ dec num = %d\n", dec_num);
-
     return dec_num;
-
 
 }
 
@@ -88,7 +109,6 @@ void reverse_string(char* _array) {
         }
         first_index++;
         last_index--;
-
     }
 }
 
