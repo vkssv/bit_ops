@@ -2,26 +2,20 @@
 #include <string.h>  /* to calculate str length */
 #include <stdint.h>
 #include <stdlib.h>
+#include <limits.h>
+#include "converter.h"
 
-#define STR32 33
-#define USR_INPUT 3 // char + '\n' + ''
-
-void print_bin(int num);
-int bin_to_dec(char *bin_str);
-
-void reverse_string(char* _array);
-
-
-int main(int argc, char *argv[]) {
+/*
+* int main(int argc, char *argv[]) {
     char ch[USR_INPUT] = {0}; // for sentinel char + '\n' added as ICANON | ECHO flags are set in struct termios with tty attrs by default (canonical mode)
-    /* This depends on your OS, if you are in a UNIX like environment the ICANON flag is enabled by default, 
+    This depends on your OS, if you are in a UNIX like environment the ICANON flag is enabled by default, 
     * so input is buffered until the next '\n' or EOF. By disabling the canonical mode you will get the characters 
     * immediately, i.e. |char| instead of |char|\n| or |char|EOF| or |char|EOL|.
     * *ICANON normally takes care that one line at a time will be processed
     * that means it will return if it sees a "\n" or an EOF or an EOL: 
     * newt.c_lflag &= ~(ICANON | ECHO); => carefull, this also disables EOF for non-canonical mode;
     * https://stackoverflow.com/questions/1798511/how-to-avoid-pressing-enter-with-getchar-for-reading-a-single-character-only          
-    */
+    
     char bin_str[STR32] = {0}; // make it large enough to hold an int32_t + '\0'
 
     system("clear"); 
@@ -44,7 +38,7 @@ int main(int argc, char *argv[]) {
     //scanf("%s", bin_str);
     return 0;
 }
-
+*/
 
 int bin_to_dec(char *bin_str) {
     int dec_num = 0;
@@ -62,18 +56,31 @@ int bin_to_dec(char *bin_str) {
 
 }
 
-void print_bin(int num) {
-    char bin_string[65] = {0};
-    int i = 0;
-    const char zero = '0';
+void print_bin(unsigned int num) {
+    
+    unsigned int i;
+    unsigned int mask = 1 << sizeof(unsigned int) * CHAR_BIT - 1;
 
-    do {
-        bin_string[i++] = (num % 2) + zero;
-    } while (num /= 2);
+    for (i = 0; i <sizeof(unsigned int) * CHAR_BIT; ++i) {
+        printf("%c", num & mask ? '1' : '0');
+        num << i;
+        if ((i + 1) % 8 == 0) {
+            printf(" ");
+        };
 
-    bin_string[i] = '\0';
-    reverse_string(bin_string);
-    printf("+++ %s\n", bin_string);
+
+    } 
+    //char bin_string[33] = "00000000000000000000000000000000"; //32 + '\0'
+    //int i = 0;
+    //const char zero = '0';
+    //bin_string[32] = '\0'; 
+
+    //do {
+    //    bin_string[i++] = (num % 2) + zero;
+    //} while (num = num << 1);
+
+    //reverse_string(bin_string);
+    //printf("+++ %s\n", bin_string);
 }
 
 
