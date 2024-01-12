@@ -6,10 +6,12 @@
 #define STR32 33
 #define USR_INPUT 3 // char + '\n' + ''
 
+void print_bin(uint32_t num);
 
-void print_bin(int32_t num);
 int bin_to_dec(char *bin_str);
 
 void reverse_string(char* _array);
+
+extern int X = 5;
 
 #endif

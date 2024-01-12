@@ -4,8 +4,10 @@
 #include <limits.h>
 #include "converter.h"
 
-/*
-* int main(int argc, char *argv[]) {
+/**
+int main(int argc, char *argv[]) {
+    
+    /*
     char ch[USR_INPUT] = {0}; // for sentinel char + '\n' added as ICANON | ECHO flags are set in struct termios with tty attrs by default (canonical mode)
     This depends on your OS, if you are in a UNIX like environment the ICANON flag is enabled by default, 
     * so input is buffered until the next '\n' or EOF. By disabling the canonical mode you will get the characters 
@@ -36,6 +38,11 @@
     //printf("\n");
     //scanf("%s", bin_str);
     return 0;
+    
+    unsigned x = 7;
+    print_bin(x);
+
+    return 0;
 }
 */
 
@@ -55,21 +62,21 @@ int bin_to_dec(char *bin_str) {
 
 }
 
-void print_bin(int32_t num) {
+void print_bin(uint32_t num) {
     
-    unsigned int i;
-    int32_t mask = 1 << sizeof(int32_t) * CHAR_BIT - 1;
-    printf(">>> size=%zu", sizeof(int32_t) * CHAR_BIT - 1);
+    unsigned int i = 0;
+    uint32_t mask = 1 << sizeof(uint32_t) * CHAR_BIT - 1;
 
-    for (i = 0; i < sizeof(int32_t) * CHAR_BIT; ++i) {
+    for(i = 0; i < sizeof(unsigned int) * CHAR_BIT; i++) {
         printf("%c", num & mask ? '1' : '0');
-        num << i;
         if ((i + 1) % 8 == 0) {
             printf(" ");
         };
+        
+        num <<= 1;
 
-
-    } 
+    }
+    printf("\n");
     //char bin_string[33] = "00000000000000000000000000000000"; //32 + '\0'
     //int i = 0;
     //const char zero = '0';

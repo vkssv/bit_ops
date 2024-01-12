@@ -44,12 +44,28 @@ int ex4(void) {
     printf("2bytes negative -1 after shift %x\n", z >> 1);
 }
 
+int ex5(void) {
+
+	int a = 5;
+	int b = 7;
+	
+	int result = b & ((a-b) >> 31) | a & (~(a-b) >> 31);
+
+    printf("((a-b) >> 31)=%d\n", (a-b) >> 31);
+    printf("(~(a-b) >> 31)=%d\n", (~(a-b) >> 31));
+	printf("%d\n", result);
+	
+	return 0;
+
+}
+
 
 int main() {
     ex1();
     ex2();
     ex3();
     ex4();
+    ex5();
 
     return 0;
 

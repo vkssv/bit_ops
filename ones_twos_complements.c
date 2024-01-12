@@ -5,24 +5,20 @@
 #include "converter.h"
 
 
-#ifndef UINT
-#define UINT unsigned int
-#endif
+uint32_t double_it(uint32_t _x);
 
-UINT double_it(UINT _x);
-
-UINT ones_complement(UINT _x);
-UINT twos_complement(UINT _x);
+uint32_t ones_complement(uint32_t _x);
+uint32_t twos_complement(uint32_t _x);
 
 
 
 
-UINT double_it(UINT _x) {
+uint32_t double_it(uint32_t _x) {
 
     return _x << 1;
 };
 
-UINT ones_complement(UINT _x) {
+uint32_t ones_complement(uint32_t _x) {
     // return ~_x;
 #if __WORDSIZE == 64
     return _x ^ 0xffffffffffffffff;
@@ -35,25 +31,25 @@ UINT ones_complement(UINT _x) {
     return 0;
 }
 
-UINT twos_complement(UINT _x) {
+uint32_t twos_complement(uint32_t _x) {
     //return ~_x + 1;
 
-    return ones_complement(_x) | 1;
+    return ones_complement(_x) + 1;
 }
 
 int main(int argc, char* argv[]) {
-    UINT x = 8;
-    UINT j = 0;
+    uint32_t x = 8;
 
-    //printf("%d in binary is: ", x);
-    //print_bin(x);
-    //printf("\n");
+    printf("%d in binary is: \n", x);
+    print_bin(x);
+    printf("\n");
 
-    //printf("One's compliment of %d is %d", x, ~x);
-    //print_bin(ones_complement(x));
-    j = double_it(x);
-    printf("Printf >> double_it %d=%d", x, double_it(x));
-    print_bin(double_it(x));
+    printf("One's compliment of %d is %d\n", x, ~x);
+    print_bin(ones_complement(x));
+    printf("Two's compliment of %d is %d\n", x, twos_complement(x));
+    print_bin(twos_complement(x));
+    
+    printf("Printf >> double_it %d=%d\n", x, double_it(x));
     print_bin(double_it(x));
     printf("Printf %d\n", x);
 
