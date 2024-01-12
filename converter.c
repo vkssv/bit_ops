@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>  /* to calculate str length */
-#include <stdint.h>
 #include <stdlib.h>
 #include <limits.h>
 #include "converter.h"
@@ -56,12 +55,13 @@ int bin_to_dec(char *bin_str) {
 
 }
 
-void print_bin(unsigned int num) {
+void print_bin(int32_t num) {
     
     unsigned int i;
-    unsigned int mask = 1 << sizeof(unsigned int) * CHAR_BIT - 1;
+    int32_t mask = 1 << sizeof(int32_t) * CHAR_BIT - 1;
+    printf(">>> size=%zu", sizeof(int32_t) * CHAR_BIT - 1);
 
-    for (i = 0; i <sizeof(unsigned int) * CHAR_BIT; ++i) {
+    for (i = 0; i < sizeof(int32_t) * CHAR_BIT; ++i) {
         printf("%c", num & mask ? '1' : '0');
         num << i;
         if ((i + 1) % 8 == 0) {
