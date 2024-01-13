@@ -12,6 +12,4 @@ int bin_to_dec(char *bin_str);
 
 void reverse_string(char* _array);
 
-extern int X = 5;
-
 #endif
